@@ -16,12 +16,12 @@ const connectDB = require('./config/db');
 const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 
 // ─── Route imports ────────────────────────────────────────
-const authRoutes         = require('./routes/authRoutes');
-const userRoutes         = require('./routes/userRoutes');
-const projectRoutes      = require('./routes/projectRoutes');
-const taskRoutes         = require('./routes/taskRoutes');
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+const taskRoutes = require('./routes/taskRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
-const analyticsRoutes    = require('./routes/analyticsRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 // ─── Connect to MongoDB ───────────────────────────────────
 connectDB();
@@ -34,7 +34,10 @@ app.use(helmet());
 // ─── CORS ─────────────────────────────────────────────────
 app.use(
   cors({
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
+    origin: [
+      "http://localhost:5173",
+      "https://taskflow-pro-eta-two.vercel.app"
+    ],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -70,12 +73,12 @@ app.get('/api/health', (req, res) => {
 });
 
 // ─── API Routes ───────────────────────────────────────────
-app.use('/api/auth',          authRoutes);
-app.use('/api/users',         userRoutes);
-app.use('/api/projects',      projectRoutes);
-app.use('/api/tasks',         taskRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/projects', projectRoutes);
+app.use('/api/tasks', taskRoutes);
 app.use('/api/notifications', notificationRoutes);
-app.use('/api/analytics',     analyticsRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // ─── Error handling (must come last) ─────────────────────
 app.use(notFound);
